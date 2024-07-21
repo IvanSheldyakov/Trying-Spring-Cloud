@@ -1,1 +1,3 @@
 rootProject.name = 'TryingSpringCloud'
+
+include 'ConfigurationServer'
