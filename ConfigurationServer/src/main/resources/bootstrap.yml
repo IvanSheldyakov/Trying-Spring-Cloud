@@ -2,12 +2,21 @@ spring:
   application:
     name: config-server
   profiles:
-    active: native
+    active: native, vault, git
   cloud:
     config:
       server:
         native:
           search-locations: classpath:/config
-
+        git:
+          clone-on-start: true
+          search-paths: licensingservice
+          uri: https://github.com/IvanSheldyakov/trying-microservices-configs.git
+        vault:
+          port: 1234
+          host: 0.0.0.0
+          kv-version: 2
 server:
   port: 8071
+encrypt:
+  key: secretKey
