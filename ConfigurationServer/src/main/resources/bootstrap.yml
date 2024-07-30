@@ -10,7 +10,7 @@ spring:
           search-locations: classpath:/config
         git:
           clone-on-start: true
-          search-paths: licensingservice
+          search-paths: licensingservice, eurekaserver, organizationservice
           uri: https://github.com/IvanSheldyakov/trying-microservices-configs.git
         vault:
           port: 1234
