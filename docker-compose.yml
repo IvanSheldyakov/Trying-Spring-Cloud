@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  config-server:
+    build: ./ConfigurationServer
+    ports:
+      - "8071:8071"
+    environment:
+      ENCRYPT_KEY: secretKey
+      SPRING_PROFILES_ACTIVE: native
+    networks:
+      backend:
+        aliases:
+          - "configserver"
+
+networks:
+  backend:
+    driver: bridge
