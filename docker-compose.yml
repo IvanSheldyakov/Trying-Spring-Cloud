@@ -11,8 +11,107 @@ services:
     networks:
       backend:
         aliases:
-          - "configserver"
+          - "config-server"
+
+  licensing-service:
+    build: ./LicensingService
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgres://licensing-service-db/licensing-service
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8071
+    depends_on:
+      licensing-service-db:
+        condition: service_healthy
+      config-server:
+        condition: service_started
+    networks:
+      backend:
+        aliases:
+           - "licensing-service"
+
+  organization-service:
+    build: ./OrganizationService
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URI: jdbc:postgres://organization-service-db/organization-service
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8071
+    depends_on:
+      organization-service-db:
+        condition: service_healthy
+      config-server:
+        condition: service_started
+    networks:
+      backend:
+        aliases:
+          - "organization-service"
+
+  eureka-server:
+    build: ./EurekaServer
+    ports:
+      - "8070:8070"
+    environment:
+      EUREKA_INSTANCE_HOSTNAME: eureka-server
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8070/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8071
+    networks:
+      backend:
+        aliases:
+          - "eureka-server"
+
+  organization-service-db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: organization-service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - organization-service-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      backend:
+        aliases:
+          - "organization-service-db"
+
+  licensing-service-db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: licensing-service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - licensing-service-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      backend:
+        aliases:
+          - "licensing-service-db"
 
 networks:
   backend:
     driver: bridge
+
+volumes:
+  licensing-service-data:
+  organization-service-data:
+
+//настройки убрать конфигов отсюда и перенести в конфиги и локальные тоже поправить

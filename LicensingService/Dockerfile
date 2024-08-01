@@ -22,7 +22,7 @@ RUN addgroup --system ${USER_GROUP} && adduser --system --ingroup ${USER_GROUP} 
 
 COPY --from=build app/build/libs/*.jar ./app.jar
 
-RUN chmod -R ${USER}:${USER_GROUP} /app
+RUN chown -R ${USER}:${USER_GROUP} /app
 
 USER ${USER}
 
