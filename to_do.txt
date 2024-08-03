@@ -1,0 +1,5 @@
+1) создать кластер eureka server, чтобы они могли обмениваться между собой инфой
+https://docs.spring.io/spring-cloud-netflix/docs/current/reference/html/
+2) обработка ошиьок feing client
+https://github.com/OpenFeign/feign/wiki/Custom-error-handling
+3) добавить ExecutionContext
