@@ -1,7 +1,8 @@
 package pet.project.licensingservice.repository;
 
 
-import pet.project.licensingservice.model.License;
+import pet.project.licensingservice.entity.License;
+import pet.project.licensingservice.model.LicenseDto;
 
 import java.util.List;
 

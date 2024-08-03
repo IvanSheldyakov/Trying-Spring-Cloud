@@ -2,13 +2,11 @@ package pet.project.licensingservice.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pet.project.licensingservice.model.License;
+import pet.project.licensingservice.external.client.ClientType;
+import pet.project.licensingservice.model.LicenseDto;
 import pet.project.licensingservice.service.LicenseService;
 
 import java.util.Locale;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("v1/license")
@@ -21,41 +19,28 @@ public class LicenseController {
     }
 
     @GetMapping("/{licenseId}/organization/{organizationId}")
-    public ResponseEntity<License> getLicense(
+    public ResponseEntity<LicenseDto> getLicense(
             @PathVariable("organizationId") String organizationId,
             @PathVariable("licenseId") String licenseId,
+            @RequestParam("clientType") ClientType clientType,
             @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
 
-        License license = licenseService.getLicense(licenseId, organizationId, locale);
-
-        license.add(linkTo(methodOn(LicenseController.class)
-                        .getLicense(organizationId, license.getLicenseId(), null))
-                        .withSelfRel(),
-                linkTo(methodOn(LicenseController.class)
-                        .createLicense(license))
-                        .withRel("createLicense"),
-                linkTo(methodOn(LicenseController.class)
-                        .updateLicense(license))
-                        .withRel("updateLicense"),
-                linkTo(methodOn(LicenseController.class)
-                        .deleteLicense(license.getLicenseId(), null))
-                        .withRel("deleteLicense"));
-
-        return ResponseEntity.ok(license);
+        LicenseDto licenseDto = licenseService.getLicense(licenseId, organizationId, locale, clientType);
+        return ResponseEntity.ok(licenseDto);
     }
 
     @PutMapping
-    public ResponseEntity<License> updateLicense(
-            @RequestBody License license
+    public ResponseEntity<LicenseDto> updateLicense(
+            @RequestBody LicenseDto licenseDto
     ) {
-        return ResponseEntity.ok(licenseService.updateLicense(license));
+        return ResponseEntity.ok(licenseService.updateLicense(licenseDto));
     }
 
     @PostMapping
-    public ResponseEntity<License> createLicense(
-            @RequestBody License license
+    public void createLicense(
+            @RequestBody LicenseDto licenseDto
     ) {
-        return ResponseEntity.ok(licenseService.createLicense(license));
+        licenseService.createLicense(licenseDto);
     }
 
     @DeleteMapping("/{licenseId}")
