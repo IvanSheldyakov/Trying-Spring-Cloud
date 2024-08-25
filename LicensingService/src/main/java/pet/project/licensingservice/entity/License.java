@@ -1,20 +1,24 @@
 package pet.project.licensingservice.entity;
 
-import lombok.Builder;
+import lombok.*;
 
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
-public record License(
+@Setter
+public class License {
 
-        String licenseId,
+    private String licenseId;
 
-        String description,
+    private String description;
 
-        String organizationId,
+    private String organizationId;
 
-        String productName,
+    private String productName;
 
-        String licenseType,
+    private String licenseType;
 
-        String comment
-) {
+    private String comment;
 }

@@ -15,12 +15,10 @@ import java.util.List;
 import java.util.Map;
 
 
-@RequiredArgsConstructor
-@Transactional
 @Repository
+@Transactional
+@RequiredArgsConstructor
 public class JdbcLicenseRepository implements LicenseRepository {
-
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private static final String SELECT_BY_ORG_ID =
             "select * from licenses where organization_id = :organizationId";
@@ -34,6 +32,8 @@ public class JdbcLicenseRepository implements LicenseRepository {
 
     private static final String DELETE_BY_ID =
             "delete from licenses where license_id = :licenseId";
+
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
     public List<License> findByOrganizationId(String organizationId) {
@@ -64,21 +64,21 @@ public class JdbcLicenseRepository implements LicenseRepository {
     }
 
     @Override
-    public int save(License license) {
+    public void save(License license) {
         Map<String, Object> params = new HashMap<>();
-        params.put("licenseId", license.licenseId());
-        params.put("description", license.description());
-        params.put("organizationId", license.organizationId());
-        params.put("productName", license.productName());
-        params.put("licenseType", license.licenseType());
-        params.put("comment", license.comment());
-        return namedParameterJdbcTemplate.update(INSERT_LICENSE, params);
+        params.put("licenseId", license.getLicenseId());
+        params.put("description", license.getLicenseId());
+        params.put("organizationId", license.getOrganizationId());
+        params.put("productName", license.getProductName());
+        params.put("licenseType", license.getLicenseType());
+        params.put("comment", license.getComment());
+        namedParameterJdbcTemplate.update(INSERT_LICENSE, params);
     }
 
     @Override
-    public int deleteById(String id) {
+    public void deleteById(String id) {
         Map<String, Object> params = new HashMap<>();
         params.put("licenseId", id);
-        return namedParameterJdbcTemplate.update(DELETE_BY_ID, params);
+        namedParameterJdbcTemplate.update(DELETE_BY_ID, params);
     }
 }

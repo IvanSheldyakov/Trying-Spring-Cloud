@@ -20,5 +20,6 @@ public record LicenseDto(
 
         String contactPhone,
 
-        String contactEmail) {
+        String contactEmail
+) {
 }
