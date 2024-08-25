@@ -2,5 +2,5 @@
 https://docs.spring.io/spring-cloud-netflix/docs/current/reference/html/
 2) обработка ошиьок feing client
 https://github.com/OpenFeign/feign/wiki/Custom-error-handling
-3) добавить ExecutionContext везде
-4) кастомные исключения с кодами
+3) кастомные исключения с кодами
+4) вынести uri в константы
