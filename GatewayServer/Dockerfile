@@ -1,10 +1,8 @@
 FROM openjdk:22-jdk-slim as build
 
-ARG WORKDIRECTORY=/app
+WORKDIR /app
 
-WORKDIR ${WORKDIRECTORY}
-
-COPY gradlew gradlew.bat settings.gradle build.gradle ./
+COPY build.gradle settings.gradle gradlew ./
 COPY gradle ./gradle
 
 RUN ./gradlew dependencies --no-daemon

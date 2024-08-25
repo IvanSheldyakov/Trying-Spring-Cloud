@@ -58,6 +58,20 @@ services:
         aliases:
           - "eureka-server"
 
+  gateway-server:
+    build: ./GatewayServer
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8071
+    depends_on:
+      config-server:
+        condition: service_started
+    networks:
+      backend:
+        aliases:
+          - "gateway-server"
+
   organization-service-db:
     image: postgres:latest
     ports:
