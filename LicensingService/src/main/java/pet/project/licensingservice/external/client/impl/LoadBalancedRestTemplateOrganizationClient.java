@@ -1,5 +1,9 @@
 package pet.project.licensingservice.external.client.impl;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +22,10 @@ public class LoadBalancedRestTemplateOrganizationClient implements OrganizationC
     private final RestTemplate loadBalancedRestTemplate;
 
     @Override
+    @CircuitBreaker(name = "organizationClient", fallbackMethod = "buildFallbackLicenseList")
+    @Bulkhead(name = "bulkheadOrganizationClient", fallbackMethod = "buildFallbackLicenseList")
+    @Retry(name = "retryOrganizationClient", fallbackMethod = "buildFallbackLicenseList")
+    @RateLimiter(name = "organizationClient", fallbackMethod = "buildFallbackLicenseList")
     public Optional<Organization> getOrganization(String organizationId) {
         ResponseEntity<Organization> restExchange =
                 loadBalancedRestTemplate.exchange(
