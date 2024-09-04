@@ -6,3 +6,8 @@ spring:
   cloud:
     config:
       uri: http://localhost:8071
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true

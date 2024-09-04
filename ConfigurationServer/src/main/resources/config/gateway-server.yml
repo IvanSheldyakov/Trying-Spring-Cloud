@@ -11,13 +11,6 @@ eureka:
       defaultZone:
         http://eureka-server:8070/eureka/
 
-spring:
-  cloud:
-    gateway:
-      discovery.locator:
-        enable: true
-        lowerCaseServiceId: true
-
 management:
   endpoints:
     web:
