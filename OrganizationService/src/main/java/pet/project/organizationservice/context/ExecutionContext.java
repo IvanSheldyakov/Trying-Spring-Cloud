@@ -1,4 +1,4 @@
-package pet.project.licensingservice.context;
+package pet.project.organizationservice.context;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

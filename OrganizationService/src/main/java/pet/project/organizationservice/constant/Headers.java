@@ -1,4 +1,4 @@
-package pet.project.licensingservice.constant;
+package pet.project.organizationservice.constant;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

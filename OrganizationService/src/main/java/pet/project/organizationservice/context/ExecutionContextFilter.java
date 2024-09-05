@@ -1,4 +1,4 @@
-package pet.project.licensingservice.context;
+package pet.project.organizationservice.context;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -8,8 +8,8 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import pet.project.licensingservice.constant.Headers;
-import pet.project.licensingservice.utils.NullSafeUtils;
+import pet.project.organizationservice.constant.Headers;
+import pet.project.organizationservice.utils.NullSafeUtils;
 
 import java.io.IOException;
 import java.util.Locale;
